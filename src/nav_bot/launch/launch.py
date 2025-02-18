@@ -16,6 +16,8 @@ from launch.launch_description_sources import PythonLaunchDescriptionSource
 
 def generate_launch_description():
 
+    package_name = "nav_bot"
+
     # Use sim time
     use_sim_time = LaunchConfiguration('use_sim_time')
 
@@ -46,7 +48,7 @@ def generate_launch_description():
     gazebo = IncludeLaunchDescription(
                 PythonLaunchDescriptionSource([os.path.join(
                     get_package_share_directory('ros_gz_sim'), 'launch', 'gz_sim.launch.py')]),     # gazebo_ros    gazebo.launch.py
-                    launch_arguments={'gz_args': ['-r -v4 ', world], 'on_exit_shutdown': 'true'}.items()
+                    launch_arguments={'gz_args': ['-r -v1 ', world], 'on_exit_shutdown': 'true'}.items()
              )
              
     # Spawn Robot
@@ -68,6 +70,32 @@ def generate_launch_description():
         arguments=["joint_state"],
     )
     
+    bridge_params= os.path.join(get_package_share_directory(package_name), 'config', 'gz_bridge.yaml')
+
+
+    # For bridging topics between Gazebo and Ros
+    ros_gz_bridge = Node(
+        package="ros_gz_bridge",
+        executable="parameter_bridge",
+        arguments=[
+            '--ros-args',
+            '-p',
+            f'config_file:={bridge_params}',
+        ]
+    )
+
+    # For image(raw data not info) we need a seprate bridge
+    ros_gz_image_bridge = Node(
+        package="ros_gz_image",
+        executable="image_bridge",
+        arguments=["/camera/image_raw"]
+    )
+
+    ros_gz_depth_image_bridge = Node(
+        package="ros_gz_image",
+        executable="image_bridge",
+        arguments=["/camera/depth/image_raw"]
+    )
 
     # Launch!
     return LaunchDescription([
@@ -80,5 +108,8 @@ def generate_launch_description():
         gazebo,
         spawn_bot,
         diff_drive_controller,
-        joint_broadcaster
+        joint_broadcaster,
+        ros_gz_bridge,
+        ros_gz_image_bridge,
+        ros_gz_depth_image_bridge
     ])
