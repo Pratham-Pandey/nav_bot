@@ -33,11 +33,20 @@ def generate_launch_description():
         parameters=[params]
     )
 
-
+    
     # Launch Gazebo 
+    world = LaunchConfiguration('world')
+
+    world_arg = DeclareLaunchArgument(
+        'world',
+        default_value="/home/pratham/ros_development/nav_bot_ws/src/nav_bot/worlds/empty.world",
+        description='World File to load'
+        )
+
     gazebo = IncludeLaunchDescription(
                 PythonLaunchDescriptionSource([os.path.join(
                     get_package_share_directory('ros_gz_sim'), 'launch', 'gz_sim.launch.py')]),     # gazebo_ros    gazebo.launch.py
+                    launch_arguments={'gz_args': ['-r -v4 ', world], 'on_exit_shutdown': 'true'}.items()
              )
              
     # Spawn Robot
@@ -66,7 +75,7 @@ def generate_launch_description():
             'use_sim_time',
             default_value='false',
             description='Use sim time if true'),
-
+        world_arg,                      # For World File
         node_robot_state_publisher,
         gazebo,
         spawn_bot,

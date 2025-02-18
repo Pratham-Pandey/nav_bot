@@ -2,9 +2,15 @@
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro"  name="nav_bot">
     
     <!-- <link name="base_link"></link> -->
+
+    <!-- Robot Structure-->
     <xacro:include filename="structure.xacro"/>
-    
+
+    <!-- Ros2 Control -->
     <xacro:include filename="ros2_control.xacro"/>
+
+    <!-- Lidar-->
+    <xacro:include filename="lidar.xacro"/>
 
 </robot>
 
