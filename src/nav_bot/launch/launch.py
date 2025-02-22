@@ -9,7 +9,7 @@ from launch_ros.actions import Node
 
 import xacro
 
-
+import launch_ros
 from launch.actions import IncludeLaunchDescription
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 
@@ -41,7 +41,10 @@ def generate_launch_description():
 
     world_arg = DeclareLaunchArgument(
         'world',
-        default_value="/home/pratham/ros_development/nav_bot_ws/src/nav_bot/worlds/empty.world",
+        # default_value="/home/pratham/ros_development/nav_bot_ws/src/nav_bot/worlds/obstacles_optimized.sdf",
+        #default_value="/home/pratham/ros_development/nav_bot_ws/src/nav_bot/worlds/maze2.sdf",
+        default_value="/home/pratham/ros_development/nav_bot_ws/src/nav_bot/worlds/maze2_dyn.sdf",
+        #default_value="/home/pratham/Desktop/test_world.sdf",
         description='World File to load'
         )
 
@@ -97,6 +100,67 @@ def generate_launch_description():
         arguments=["/camera/depth/image_raw"]
     )
 
+    rviz = launch_ros.actions.Node(
+        package='rviz2',
+        executable='rviz2',
+        name='rviz2',
+        output='screen',
+        arguments=['-d', "/home/pratham/ros_development/nav_bot_ws/src/nav_bot/config/rviz_nav_bot_config_2.rviz"],
+    )
+
+
+    # SLAM Localization
+    # slam_loc = Node(
+    #     package="slam_toolbox",
+    #     executable="online_async_launch",
+    #     arguments=["/camera/image_raw"]
+    # )
+
+    slam_toolbox_share = get_package_share_directory('slam_toolbox')
+    online_async_launch = os.path.join(slam_toolbox_share, 'launch', 'online_async_launch.py')
+
+    slam_toolbox_launch = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(online_async_launch),
+        launch_arguments={
+            'slam_params_file': '/home/pratham/ros_development/nav_bot_ws/src/nav_bot/config/mapper_params_online_async.yaml',
+            'use_sim_time': 'true'
+        }.items()
+    )
+
+    # Launch Nav2 
+    nav2_bringup_share = get_package_share_directory('nav2_bringup')
+    navigation_launch = os.path.join(nav2_bringup_share, 'launch', 'navigation_launch.py')
+
+    nav2_launch = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(navigation_launch),
+        launch_arguments={
+            'use_sim_time': 'true',
+            'params_file': '/home/pratham/ros_development/nav_bot_ws/src/nav_bot/config/nav2_params.yaml'
+        }.items()
+    )
+
+    # TwistMux: Remapping Nav2 Output
+    twist_mux_params = os.path.join(
+        '/home/pratham/ros_development/nav_bot_ws/src/nav_bot/config',
+        'twist_mux.yaml'
+    )
+
+    twist_mux_node = Node(
+            package='twist_mux',
+            executable='twist_mux',
+            name='twist_mux',
+            parameters=[twist_mux_params],
+            remappings=[('cmd_vel_out', '/diff_drive_controller/cmd_vel_unstamped')]
+        )
+
+    # Dynamic Obstacles: To move objects present in the environment.
+    dynamic_obj = Node(
+        package="nav_bot",
+        executable="dyn_obs",
+        name='dyn_obs'
+    )
+
+
     # Launch!
     return LaunchDescription([
         DeclareLaunchArgument(
@@ -111,5 +175,10 @@ def generate_launch_description():
         joint_broadcaster,
         ros_gz_bridge,
         ros_gz_image_bridge,
-        ros_gz_depth_image_bridge
+        ros_gz_depth_image_bridge,
+        rviz,
+        slam_toolbox_launch,
+        nav2_launch,
+        twist_mux_node,
+        dynamic_obj
     ])

@@ -28,3 +28,10 @@
   ros_type_name: "sensor_msgs/msg/PointCloud2"
   gz_type_name: "gz.msgs.PointCloudPacked"
   direction: "GZ_TO_ROS"
+
+
+- ros_topic_name: "gazebo/set_pose"
+  gz_topic_name: "world/empty/set_pose"
+  ros_type_name: "custom_msgs/msg/GazeboPose" #"geometry_msgs/msg/Pose"
+  gz_type_name: "gz.msgs.Pose" #"ignition.msgs.Pose"
+  direction: "ROS_TO_GZ" #"GZ_TO_ROS"

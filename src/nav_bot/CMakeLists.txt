@@ -14,6 +14,13 @@ find_package(ros_gz_sim )
 # further dependencies manually.
 # find_package(<dependency> REQUIRED)
 
+# Testing
+find_package(rclcpp REQUIRED)
+find_package(std_msgs REQUIRED)
+find_package(nav2_msgs REQUIRED)
+find_package(rclcpp_action REQUIRED)
+find_package(rclcpp_components REQUIRED)
+
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
   # the following line skips the linter which checks for copyrights
@@ -25,6 +32,20 @@ if(BUILD_TESTING)
   set(ament_cmake_cpplint_FOUND TRUE)
   ament_lint_auto_find_test_dependencies()
 endif()
+
+add_executable(my_pub src/my_pub.cpp)
+add_executable(dyn_obs src/move.cpp)
+ament_target_dependencies(my_pub rclcpp rclcpp_action std_msgs nav2_msgs)
+ament_target_dependencies(dyn_obs rclcpp rclcpp_action std_msgs nav2_msgs)
+
+install(TARGETS
+  my_pub
+  DESTINATION lib/${PROJECT_NAME})
+    
+install(TARGETS
+  dyn_obs
+  DESTINATION lib/${PROJECT_NAME})
+
 
 install(
   DIRECTORY config description launch worlds

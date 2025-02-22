@@ -14,7 +14,7 @@
             <geometry>
                 <cylinder radius="0.05" length="0.04"/>
             </geometry>
-            <material name="red"/>
+            <material name="green"/>
         </visual>
         <collision>
             <geometry>
@@ -29,7 +29,7 @@
 
     <!-- Gazebo-->
     <gazebo reference="lidar_body">
-        <material>Gazebo/Red</material>
+        <material>Gazebo/Green</material>
 
         <sensor name="my_lidar" type="gpu_lidar">
             <pose> 0 0 0 0 0 0 </pose>
@@ -45,7 +45,7 @@
                 </scan>
                 <range>
                     <min>0.3</min>
-                    <max>12</max>
+                    <max>10</max>
                 </range>
             </lidar>
 
