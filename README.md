@@ -1,8 +1,13 @@
 # Optimize the Navigation Pipeline
-1. Changing locaal costmap **update_frequency** and **publish_frequency**:
+1. local_costmap:
+  * update_frequency and publish_frequency:
   *  Before updating these, when dynamic objects leaves a position on the map, there presence in map takes a while to get updated.
   *  Increasing the frequency resulted in faster map updation. But the issue is not copletely resolved because the CPU is at 99% usage.
 
+2. FollowPath(Local Planner):
+   * samples: Increased vx_samples to 25 from 20. Reduces vy_samples to 2 from 5. Reduces vheta_samples to 20 from 15.
+   * reduced sim_time to 1.2 from 1.7 to reduce computation load. 
+   * BaseObstacle.scale: Increased it to 0.17 from 0.02 to prioritize obstacle avoidance.
     
 2.  gobal_costmap/inflation_radius:
   *  Changing  it from 0.55 to 0.20 enabled robot to move through tight spaces although with increased risk of collision.
