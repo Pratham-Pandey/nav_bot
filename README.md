@@ -1,5 +1,12 @@
 # Steps To Run Locally
 
+
+
+>  [!NOTE]
+> Change the file path of parameter **map_file_name:** in the **mapper_params_online_async.yaml** int the followign way:
+> ```{path_where_cloned}/nav_bot/maze2_serialize1```
+
+
 Clone the project
 ```bash
   git clone https://github.com/Pratham-Pandey/nav_bot.git
