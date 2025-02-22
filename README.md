@@ -7,10 +7,10 @@
 2. FollowPath(Local Planner):
    * samples: Increased vx_samples to 25 from 20. Reduces vy_samples to 2 from 5. Reduces vheta_samples to 20 from 15.
    * reduced sim_time to 1.2 from 1.7 to reduce computation load. 
-   * BaseObstacle.scale: Increased it to 0.17 from 0.02 to prioritize obstacle avoidance.
+   * BaseObstacle.scale: Increased it to 0.04 from 0.02 to prioritize obstacle avoidance.
     
 2.  gobal_costmap/inflation_radius:
-  *  Changing  it from 0.55 to 0.20 enabled robot to move through tight spaces although with increased risk of collision.
+  *  Changing  it from 0.55 to 0.15 enabled robot to move through tight spaces although with increased risk of collision.
   *  The robot selected another shortest path to the same goal due to this. 
 
 3  planner_server/
