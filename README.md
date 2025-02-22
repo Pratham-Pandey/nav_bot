@@ -1,3 +1,12 @@
+# Optimize the Navigation Pipeline
+1. Changing locaal costmap **update_frequency** and **publish_frequency**:
+  *  Before updating these, when dynamic objects leaves a position on the map, there presence in map takes a while to get updated.
+  *  Increasing the frequency resulted in faster map updation. But the issue is not copletely resolved because the CPU is at 99% usage.
+
+    
+2.  gobal_costmap/inflation_radius:
+  *  Changing  it from 0.55 to 0.20 enabled robot to move through tight spaces although with increased risk of collision.
+  *  The robot selected another shortest path to the same goal due to this. 
 # Steps To Run Locally
 
 
