@@ -3,7 +3,7 @@
 
 
 >  [!NOTE]
-> Change the file path of parameter **map_file_name:** in the **mapper_params_online_async.yaml** int the followign way:
+> Change the file path of parameter **"map_file_name:"** in the **mapper_params_online_async.yaml** in the following way:
 > ```{path_where_cloned}/nav_bot/maze2_serialize1```
 
 
