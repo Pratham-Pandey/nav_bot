@@ -43,8 +43,9 @@ def generate_launch_description():
         'world',
         # default_value="/home/pratham/ros_development/nav_bot_ws/src/nav_bot/worlds/obstacles_optimized.sdf",
         #default_value="/home/pratham/ros_development/nav_bot_ws/src/nav_bot/worlds/maze2.sdf",
-        default_value="/home/pratham/ros_development/nav_bot_ws/src/nav_bot/worlds/maze2_dyn.sdf",
+        #default_value="/home/pratham/ros_development/nav_bot_ws/src/nav_bot/worlds/maze2_dyn.sdf",
         #default_value="/home/pratham/Desktop/test_world.sdf",
+        default_value=os.path.join(get_package_share_directory('nav_bot'), "worlds/maze2_dyn.sdf"),
         description='World File to load'
         )
 
@@ -105,7 +106,7 @@ def generate_launch_description():
         executable='rviz2',
         name='rviz2',
         output='screen',
-        arguments=['-d', "/home/pratham/ros_development/nav_bot_ws/src/nav_bot/config/rviz_nav_bot_config_2.rviz"],
+        arguments=['-d', os.path.join(get_package_share_directory('nav_bot'), "config/rviz_nav_bot_config_2.rviz")],
     )
 
 
@@ -122,7 +123,7 @@ def generate_launch_description():
     slam_toolbox_launch = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(online_async_launch),
         launch_arguments={
-            'slam_params_file': '/home/pratham/ros_development/nav_bot_ws/src/nav_bot/config/mapper_params_online_async.yaml',
+            'slam_params_file': os.path.join(get_package_share_directory('nav_bot'), 'config/mapper_params_online_async.yaml'),
             'use_sim_time': 'true'
         }.items()
     )
@@ -135,15 +136,12 @@ def generate_launch_description():
         PythonLaunchDescriptionSource(navigation_launch),
         launch_arguments={
             'use_sim_time': 'true',
-            'params_file': '/home/pratham/ros_development/nav_bot_ws/src/nav_bot/config/nav2_params.yaml'
+            'params_file': os.path.join(get_package_share_directory('nav_bot'), 'config/nav2_params.yaml')
         }.items()
     )
 
     # TwistMux: Remapping Nav2 Output
-    twist_mux_params = os.path.join(
-        '/home/pratham/ros_development/nav_bot_ws/src/nav_bot/config',
-        'twist_mux.yaml'
-    )
+    twist_mux_params = os.path.join(get_package_share_directory('nav_bot'), 'config/twist_mux.yaml')    
 
     twist_mux_node = Node(
             package='twist_mux',
