@@ -14,7 +14,7 @@
             <geometry>
                 <box size="0.025 0.025 0.025"/>    
             </geometry>
-            <material name="brown"/>
+            <material name="red"/>
         </visual>
         <collision>
             <geometry>
@@ -37,7 +37,7 @@
 
     <!-- Gazebo-->
     <gazebo reference="camera_body">
-        <material>Gazebo/Brown</material>
+        <material>Gazebo/Red</material>
 
         <sensor name="my_camera" type="camera">
             <pose> 0 0 0 0 0 0 </pose>

@@ -157,10 +157,10 @@ controller_server:
       decel_lim_x: -2.5
       decel_lim_y: 0.0
       decel_lim_theta: -3.2
-      vx_samples: 20
-      vy_samples: 5
-      vtheta_samples: 20
-      sim_time: 1.7
+      vx_samples: 25   #20
+      vy_samples: 2    #5
+      vtheta_samples: 15 #20
+      sim_time: 1.2 #1.7
       linear_granularity: 0.05
       angular_granularity: 0.025
       transform_tolerance: 0.2
@@ -169,7 +169,7 @@ controller_server:
       short_circuit_trajectory_evaluation: True
       stateful: True
       critics: ["RotateToGoal", "Oscillation", "BaseObstacle", "GoalAlign", "PathAlign", "PathDist", "GoalDist"]
-      BaseObstacle.scale: 0.02
+      BaseObstacle.scale: 0.04 #0.02
       PathAlign.scale: 32.0
       PathAlign.forward_point_distance: 0.1
       GoalAlign.scale: 24.0
@@ -183,8 +183,8 @@ controller_server:
 local_costmap:
   local_costmap:
     ros__parameters:
-      update_frequency: 5.0    #10.0    
-      publish_frequency: 2.0    #5.0    
+      update_frequency: 10.0  #5.0        
+      publish_frequency: 5.0 #2.0        
       global_frame: odom
       robot_base_frame: base_link
       use_sim_time: True
@@ -255,7 +255,7 @@ global_costmap:
       inflation_layer:
         plugin: "nav2_costmap_2d::InflationLayer"
         cost_scaling_factor: 3.0
-        inflation_radius: 0.55
+        inflation_radius: 0.15 #0.55
       always_send_full_costmap: True
 
 map_server:
@@ -275,13 +275,13 @@ map_saver:
 
 planner_server:
   ros__parameters:
-    expected_planner_frequency: 20.0
+    expected_planner_frequency: 30.0 #20.0
     use_sim_time: True
     planner_plugins: ["GridBased"]
     GridBased:
       plugin: "nav2_navfn_planner/NavfnPlanner"
-      tolerance: 0.5
-      use_astar: false
+      tolerance: 1.0 #0.5
+      use_astar: false  
       allow_unknown: true
 
 smoother_server:
@@ -290,8 +290,8 @@ smoother_server:
     smoother_plugins: ["simple_smoother"]
     simple_smoother:
       plugin: "nav2_smoother::SimpleSmoother"
-      tolerance: 1.0e-10
-      max_its: 1000
+      tolerance: 1.0e-5 #1.0e-10
+      max_its: 200 #1000
       do_refinement: True
 
 behavior_server:
@@ -340,9 +340,11 @@ velocity_smoother:
     smoothing_frequency: 20.0
     scale_velocities: False
     feedback: "OPEN_LOOP"
-    max_velocity: [0.26, 0.0, 1.0]
+    #max_velocity: [0.26, 0.0, 1.0]
+    max_velocity: [1.0, 0.0, 1.0]
     min_velocity: [-0.26, 0.0, -1.0]
-    max_accel: [2.5, 0.0, 3.2]
+    #max_accel: [2.5, 0.0, 3.2]
+    max_accel: [1.9, 0.0, 2.5]
     max_decel: [-2.5, 0.0, -3.2]
     odom_topic: "odom"
     odom_duration: 0.1
