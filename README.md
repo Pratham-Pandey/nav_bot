@@ -28,8 +28,9 @@
 
 
 #  Output Video
-**Before Optimization: ** https://drive.google.com/file/d/1nUfJM8i7tJhad4OAIFyYR3xVR2ikuEVn/view?usp=drive_link
-**After Optimization: ** https://drive.google.com/file/d/1uuLApxWm7mVJ8jArFPF9ZyOWEgPz4xMt/view?usp=sharing
+
+**Before Optimization:**  https://drive.google.com/file/d/1nUfJM8i7tJhad4OAIFyYR3xVR2ikuEVn/view?usp=drive_link  
+**After Optimization:**  https://drive.google.com/file/d/1uuLApxWm7mVJ8jArFPF9ZyOWEgPz4xMt/view?usp=sharing
 
 **NOTE:** Due to low specs of the laptop, the whole nav2 task is running slowly. That is the reason why I have made the video using an external camera instead of a screen recorder. The video is shakign initially, later it gets a bit stablized. 
 
